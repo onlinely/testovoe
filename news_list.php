@@ -14,6 +14,10 @@ if (!Loader::includeModule('iblock')) {
     return;
 }
 
+// Переменная для url сайта
+$siteUrl = "https://" . $_SERVER['SERVER_NAME'];
+
+
 // Настройки для корректного вывода даты на русском
 setlocale(LC_TIME, 'ru_RU.UTF-8');
 
@@ -77,7 +81,7 @@ if ($cache->initCache($cacheTime, $cacheId, $cacheDir)) {
         $image = \CFile::GetPath($element['PREVIEW_PICTURE']);
 
         // Если изображения нет, устанавливаем пустую строку
-        $image = $image ?: '';
+        $image =  !empty($image) ? $siteUrl . $image : '';
 
         // Формируем URL
         $iblock = IblockTable::getList([
@@ -94,7 +98,7 @@ if ($cache->initCache($cacheTime, $cacheId, $cacheDir)) {
         // Формируем массив
         $news[] = [
             'id' => $element['ID'],
-            'url' => $url,
+            'url' => $siteUrl . $url,
             'image' => $image,
             'name' => $element['NAME'],
             'sectionName' => $section['NAME'],
